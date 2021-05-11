@@ -117,7 +117,7 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 - **Optimal Vocabulary Size** : 4k 
 
-![jejy](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\jejy.PNG)
+![jejy](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/jejy.PNG)
 
 
 
@@ -164,7 +164,7 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 - 문장을 그대로 출력하는 태스크보다 점수가 높은지를 기준으로
 
-  ![gf](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\gf.PNG)
+  ![gf](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/gf.PNG)
 
   
 
