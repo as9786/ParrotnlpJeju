@@ -18,7 +18,7 @@ https://www.kakaobrain.com/blog/119
 
   => 훈련 데이터 160,356쌍, 검증 데이터와 테스트 데이터 각각 5,000쌍
 
-   ![data](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\data.PNG)
+   ![data](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/data.PNG)
 
 - 과정
 
@@ -32,7 +32,7 @@ https://www.kakaobrain.com/blog/119
 
   - 줄바꿈 중간중간 발생 => a로 표시 => a가 없는 단어가 다른 곳에 나오면 그 단어로 바꾸고 없으면 ^을 공백으로 바꿈 
 
-    ![nnnnnn](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\nnnnnn.PNG)
+    ![nnnnnn](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/nnnnnn.PNG)
 
   - punctuation 
 
@@ -137,7 +137,7 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 - **Optimal Vocabulary Size** : 4k 
 
-![jejy](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\jejy.PNG)
+![jejy](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/jejy.PNG)
 
 
 
@@ -216,7 +216,7 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 - 문장을 그대로 출력하는 태스크보다 점수가 높은지를 기준으로 번역이 제대로 이루어졌는지 평가
 
-![gf](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\gf.PNG)
+![gf](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/gf.PNG)
 
 
 
