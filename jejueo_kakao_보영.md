@@ -8,6 +8,8 @@ https://github.com/kakaobrain/jejueo/tree/master/translation
 
 https://www.kakaobrain.com/blog/119
 
+
+
 #### 1.데이터 셋 구축 
 
 - 제주학연구센터가 제공하는 **제주어구술자료집** 2017, 2018년 버전을 
@@ -16,44 +18,63 @@ https://www.kakaobrain.com/blog/119
 
   => 훈련 데이터 160,356쌍, 검증 데이터와 테스트 데이터 각각 5,000쌍
 
-   
+   ![data](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\data.PNG)
+
 - 과정
 
-(1) pdf 파일 txt 파일로 변환 
+  (1) pdf 파일 txt 파일로 변환 
 
-(2) 인터뷰 데이터만 남김 
+  (2) 인터뷰 데이터만 남김 
 
-(3) 제주어와 한국어 분리 
+  (3) 제주어와 한국어 분리 
 
- - 제주어 (한국어) 형태로 저장되어 있는 문서를 분리 
- - 줄바꿈 중간중간 발생 => a로 표시 => a가 없는 단어가 다른 곳에 나오면 그 단어로 바꾸고 없으면 ^을 공백으로 바꿈 
+  - 제주어 (한국어) 형태로 저장되어 있는 문서를 분리 
+
+  - 줄바꿈 중간중간 발생 => a로 표시 => a가 없는 단어가 다른 곳에 나오면 그 단어로 바꾸고 없으면 ^을 공백으로 바꿈 
+
+    ![nnnnnn](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\nnnnnn.PNG)
+
+  - punctuation 
+
+  - 아래아와 같은 옛한글 standard 유니코드로 
+
+  - train, test, dev 데이터로 split => dev, test 데이터는 한 문장에 단어 5개 이상 들어가는 문장들로 구성 
+
 
 
 #### 2. 데이터 전처리 
 
-- **BPE** : 서브워드 분리 알고리즘 (하나의 단어를 여러 서브워드로 분리해서 인코딩 => OOV 문제 완화 )
+- 단어를 서브워드로 분리해서 인코딩하는 방법 사용 
 
-  - 기본 원리 : 연속적으로 가장 많이 등장한 글자의 쌍  찾아서 하나의 글자로 병합 
+- **BPE**(byte pair encoding) : 서브워드 분리 알고리즘 (하나의 단어를 여러 서브워드로 분리해서 인코딩 => OOV 문제 완화 )
+
+  - 기본 원리 : 원래 데이터를 압축시키는 알고리즘 
+
+    - 연속적으로 가장 많이 등장한 글자의 쌍  찾아서 하나의 글자로 병합 
 
   - ```python
     # 기본 원리 
     aaabdaaabac
     ↓
-    XdXac
-    X=ZY
-    Y=ab
-    Z=aa
+    Z=aa 사용 => ZabdZabac
+    ↓
+    Y = ab => ZYdZYac
+    ↓
+    X=ZY => XdXac
     ```
 
-  - Bottom up 방식 (구현) : 유니코드 단위로 단어 집합 만든 후 가장 많이 등장하는 유니그램 하나의 유니그램으로 통합하여 단어 집합에 추가 
+  - 서브워드 분리 : 유니코드 단위로 단어 집합 만든 후 가장 많이 등장하는 유니그램 하나의 유니그램으로 통합하여 단어 집합에 추가 
 
   - ```python
-    # 초기 딕셔너리 
+    low, lower, newest, widest
+    
+    # 위 단어에서 아래와 같은 딕셔너리 생성  
     l o w : 5,  l o w e r : 2,  n e w e s t : 6,  w i d e s t : 3
     
+    # 초기 단어 집합 => 단어를 character 단위로 분리 
     l, o, w, e, r, n, w, s, t, i, d
     ↓
-    # dictionary에 (e, s) 쌍 가장 빈도수 높음 => 하나로 통합하여 단어 집합에 추가 
+    # 딕셔너리에 (e, s) 쌍 가장 빈도수 높음 => 하나로 통합하여 단어 집합에 추가 
     l, o, w, e, r, n, w, s, t, i, d, es
     ↓
     l, o, w, e, r, n, w, s, t, i, d, es, est
@@ -116,7 +137,7 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 - **Optimal Vocabulary Size** : 4k 
 
-![jejy](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/jejy.PNG)
+![jejy](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\jejy.PNG)
 
 
 
@@ -125,9 +146,16 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 #### 3. 모델 : **Transformer** - deep seq2seq architecture 
 
 - original parameter settings of the standard Transformer model
-  => 6 encoder/decoder, 각각 512-2048 hidden units across 8 attention heads 
 
-- pytorch 라이브러리 FAIRSEQ 사용 
+   - 인코더와 디코더 구조 6개 
+   - 8 attention heads 
+   - hidden unit : 512-2048 
+
+  => attention is all you need에서 정한 하이퍼 파라미터 사용  
+
+- pytorch를 사용하는 라이브러리 FAIRSEQ 사용 (by facebook) 
+
+  - 번역, 요약, 자연어 생성 등과 같은 모델을 학습하기 위한 도구들을 제공하는 라이브러리 
 
   https://github.com/pytorch/fairseq
 
@@ -157,15 +185,9 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 #### 4. 모델 성능 평가 
 
-- BLEU : 기계 번역 결과와 사람이 직접 번역한 결과가 얼마나 유사한지 비교하여 번역에 대한 성능을 측정하는 방법
+- BLEU : 기계가 번역한 문장과 정답 문장 간의 정확도(precision)를 측정
 
   - https://wikidocs.net/31695
-
-- 문장을 그대로 출력하는 태스크보다 점수가 높은지를 기준으로
-
-  ![gf](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/gf.PNG)
-
-  
 
   ```
   export lang1="ko"
@@ -177,10 +199,29 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
     --beam-width 5
   ```
 
+  ```python
+  import nltk.translate.bleu_score as bleu
   
+  candidate = 'It is a guide to action which ensures that the military always obeys the commands of the party'
+  references = [
+      'It is a guide to action that ensures that the military will forever heed Party commands',
+      'It is the guiding principle which guarantees the military forces always being under the command of the Party',
+      'It is the practical guide for the army always to heed the directions of the party'
+  ]
+  
+  print(bleu.sentence_bleu(list(map(lambda ref: ref.split(), references)),candidate.split()))
+  ```
+
+
+
+- 문장을 그대로 출력하는 태스크보다 점수가 높은지를 기준으로 번역이 제대로 이루어졌는지 평가
+
+![gf](C:\Users\qhdud\OneDrive - Sogang\바탕 화면\gf.PNG)
+
+
+
 
 #### 5. 결과 
 
 - 제주어 -> 한국어 번역이 한국어 -> 제주어 번역보다 점수가 훨씬 높음 
   - 제주어에서는 한국어가 많이 나타나지만 한국어에서는 제주어가 많이 나타나지 않기 때문인 것으로 보임 
-    
