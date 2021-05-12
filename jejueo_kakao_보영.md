@@ -218,7 +218,10 @@ https://colab.research.google.com/drive/1iyRN7lwSvGek0zc3C24T9usqQzfmV89N?usp=sh
 
 ![gf](https://github.com/as9786/ParrotnlpJeju/blob/main/old_conv_list/gf.PNG)
 
-
+- 한국 위키에서 뽑은 한국어 문장 데이터 셋 추가 :     
+  - 타겟 언어로만 이루어진 데이터를 추가하는 것이 기계 번역 성능 향상 도움이 됨 <한국어, 한국어>    
+  - 관련 논문 : 'Improving neural machine translation models with monolingual data'
+  
 
 
 #### 5. 결과 
